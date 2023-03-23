@@ -2,7 +2,7 @@
 
 The communication looks like this: Browser --> Local HTTP Proxy --> DNS Server --> Endpoint
 
-All packets are base32 encoded and chunked. So that the data could be encapsulated inside the domain name.
+All packets are base32 encoded and chunked. So the data could be encapsulated inside the domain name.
 
 ## Used for
 

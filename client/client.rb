@@ -3,7 +3,6 @@ require "base32"
 require_relative "helpers/proxy"
 require_relative  "helpers/dns_parser"
 
-# WARNING! before launching, dont forget to disable systemd-resolved service and change the default dns server 
 
 #struct
 # the struct max size is 500, because -> A domain can have up to 500 subdomains
@@ -29,13 +28,11 @@ class ClientProxy
 				# HTTPS Is not implemented yet!
 
 			else
-				p req[0]
 				encoded = Base32.encode32(req[0])
 				chunks = get_chunks(encoded, MAX_CHUNK_SIZE)
 				response = send_chunks(chunks)
 				res.print(response) if response
-				res.close
-			
+				res.close			
 			end
 
 		end
@@ -66,9 +63,7 @@ class ClientProxy
 			
 			if @dns_parser.is_readable? # if all chunks are received
 				packets = @dns_parser.get_packets().join()
-
 				puts "SIZE RECV: #{packets.size}"
-				p Base32.decode32( packets )
 				@dns_parser.cleanup
 				return Base32.decode32(packets)
 			end
@@ -83,7 +78,16 @@ class ClientProxy
 end
 
 
-p = ClientProxy.new("167.99.236.107", 8000)
+
+if !ARGV[0] || !ARGV[1]
+	puts "Usage: ruby client.rb <DNS SERVER IP> <LOCAL PROXY PORT>"
+	exit
+end
+
+dns_server, local_proxy_port = ARGV[0], ARGV[1]
+puts "Started at: #{Time.now}"
+p = ClientProxy.new(dns_server, local_proxy_port)
+
 
  
 

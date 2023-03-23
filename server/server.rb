@@ -112,8 +112,17 @@ class HTTP_Over_DNSProxy
 	
 end
 
+if Process.uid != 0
+	puts "[ ERR ] => Please run as a root user!"
+	exit
+end
+
+puts "[ INFO ] => Process is now daemonized..."
+Process.daemon() # daemonize the server process
 p = HTTP_Over_DNSProxy.new
 p.start
+
+
 
 
 

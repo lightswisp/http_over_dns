@@ -83,7 +83,7 @@ class ClientProxy
 end
 
 
-p = ClientProxy.new("127.0.0.1", 8000)
+p = ClientProxy.new("167.99.236.107", 8000)
 
  
 
